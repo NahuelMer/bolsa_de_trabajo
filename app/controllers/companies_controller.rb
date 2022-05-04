@@ -1,7 +1,7 @@
 class CompaniesController < ApplicationController
     
     before_action :set_company, only: [:show, :update, :destroy]
-    skip_before_action :check_token, only: [:create]
+    before_action :check_token, only: [:update, :destroy]
 
     def create
         @company = Company.new(company_params)
@@ -24,9 +24,9 @@ class CompaniesController < ApplicationController
 
     def destroy
         if @company.destroy
-        render status: 200
+            render status: 200
         else
-        render_errors_response
+            render_errors_response
         end
     end
 
@@ -38,9 +38,9 @@ class CompaniesController < ApplicationController
 
     def render_response
         if @company.save
-        render status: 200, json: { company: @company }
+            render status: 200, json: { company: @company }
         else
-        render_errors_response
+            render_errors_response
         end
     end
 
@@ -53,6 +53,13 @@ class CompaniesController < ApplicationController
         return if @company.present?
         render status: 404, json: { message: "No se encuentra la compañia #{params[:id]}" }
         false    
+    end
+
+    def check_token
+        # return if request.headers["Authorization"] == "Bearer #{@company.token}"
+        return if request.headers["Authorization"] == @company.token
+        render status: 401, json: { message: "Invalid Token" }
+        false
     end
 
 end

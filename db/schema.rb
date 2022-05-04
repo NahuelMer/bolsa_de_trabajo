@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_04_172600) do
   create_table "candidates", force: :cascade do |t|
     t.string "candidate_name"
     t.string "candidate_email"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -31,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_04_172600) do
   create_table "companies", force: :cascade do |t|
     t.string "company_name"
     t.string "contact_email"
+    t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

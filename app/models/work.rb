@@ -1,6 +1,7 @@
 class Work < ApplicationRecord
     validates :work_name, presence: true
     validates :work_description, presence: true
+    validates :token, uniqueness: true
 
     belongs_to :company
 

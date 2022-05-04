@@ -1,7 +1,7 @@
 class CandidatesController < ApplicationController
 
     before_action :set_candidate, only: [:show, :update, :destroy]
-    skip_before_action :check_token, only: [:create]
+    before_action :check_token, only: [:update, :destroy]
 
     def create
         @candidate = candidate.new(candidate_params)
@@ -53,6 +53,12 @@ class CandidatesController < ApplicationController
         return if @candidate.present?
         render status: 404, json: { message: "No se encuentra el candidato #{params[:id]}" }
         false    
+    end
+
+    def check_token
+        return if request.headers["Authorization"] == @candidate.token
+        render status: 401, json: { message: "Invalid Token" }
+        false
     end
 
 end
